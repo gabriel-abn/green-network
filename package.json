@@ -15,6 +15,6 @@
     "ts-node-dev": "^2.0.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch --noStackTrace --max-workers=1"
   }
 }
