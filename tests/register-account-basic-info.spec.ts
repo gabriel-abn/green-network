@@ -1,3 +1,11 @@
+type UserProps = {
+  name: string;
+  birthDate: Date;
+  address: string;
+  cpf: string;
+  rg: string;
+};
+
 type RegisterAccountBasicInfoRequestDTO = {
   name: string;
   birthDate: Date;
@@ -12,16 +20,27 @@ type RegisterAccountBasicInfoResponseDTO = {
   message: string;
 };
 
+type TCPFChekingDTO = {
+  check: boolean;
+  data?: { name: string; cpf: string; rg: string };
+};
 interface ICPFCheckerService {
-  check(cpf: string): boolean;
+  check(personParams: UserProps): TCPFChekingDTO;
 }
 
 class CPFCheckerSpy implements ICPFCheckerService {
-  check(cpf: string): boolean {
-    if (cpf.length != 11) {
-      return false;
+  check(personParams: UserProps): TCPFChekingDTO {
+    if (personParams.cpf.length != 11) {
+      return {
+        check: false,
+      };
     }
-    return true;
+    return {
+      check: true,
+      data: {
+        ...personParams,
+      },
+    };
   }
 }
 
@@ -30,9 +49,15 @@ class RegisterAccountBasicInfoUseCase {
   execute(
     params: RegisterAccountBasicInfoRequestDTO
   ): RegisterAccountBasicInfoResponseDTO {
-    if (!this.cpfChecker.check(params.cpf)) {
+    if (!this.cpfChecker.check({ ...params }).check) {
       return {
         message: "Invalid CPF",
+        status: 400,
+      };
+    }
+    if (this.cpfChecker.check({ ...params }).data?.rg != params.rg) {
+      return {
+        message: "Invalid RG",
         status: 400,
       };
     }
