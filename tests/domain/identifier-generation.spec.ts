@@ -1,20 +1,4 @@
-const isIdentifier = (id: any): id is Identifier => {
-  return id instanceof Identifier;
-};
-
-class Identifier {
-  constructor(private value: string) {}
-
-  public equals(id?: Identifier) {
-    if (!id || !isIdentifier(id)) {
-      return false;
-    }
-    return true;
-  }
-  public toString() {
-    return this.value;
-  }
-}
+import { Identifier, isIdentifier } from "@domain/common/identifier";
 
 describe("Generating unique entity identifiers", () => {
   it("should generate a string identifier", () => {
