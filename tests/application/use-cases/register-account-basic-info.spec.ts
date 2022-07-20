@@ -1,5 +1,5 @@
-import { RegisterAccountBasicInfoUseCase } from "../src/application/register-account-use-case";
-import { CPFCheckerSpy } from "./mocks/cpf-check-service-spy";
+import { RegisterAccountBasicInfoUseCase } from "@application/register-account-use-case";
+import { CPFCheckerSpy } from "@tests/mocks/cpf-check-service-spy";
 
 const makeSut = () => {
   const cpfChecker = new CPFCheckerSpy();
