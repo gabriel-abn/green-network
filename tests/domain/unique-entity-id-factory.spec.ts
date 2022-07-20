@@ -1,49 +1,5 @@
-import { UniqueEntityID } from "@domain/common/unique-entity-id";
-import { randomUUID } from "crypto";
-
-interface UniqueEntityIDGenerator {
-  nextID(): UniqueEntityID;
-}
-
-export class UUIDEntity implements UniqueEntityIDGenerator {
-  nextID(): UniqueEntityID {
-    return new UniqueEntityID(randomUUID());
-  }
-}
-
-type EntityIDFactory = {
-  [entity: string]: UniqueEntityIDGenerator;
-};
-
-class UniqueEntityIDGeneratorFactory {
-  private static instance: UniqueEntityIDGeneratorFactory;
-  private entityIDFactory: EntityIDFactory;
-
-  private constructor() {}
-
-  public static getInstance() {
-    if (!UniqueEntityIDGeneratorFactory.instance) {
-      UniqueEntityIDGeneratorFactory.instance =
-        new UniqueEntityIDGeneratorFactory();
-    }
-    return UniqueEntityIDGeneratorFactory.instance;
-  }
-
-  public inicialize(factories: EntityIDFactory) {
-    this.entityIDFactory = factories;
-  }
-
-  public getIdGeneratorFor(entity?: any): UniqueEntityIDGenerator {
-    const className = "test";
-    if (!this.entityIDFactory) {
-      throw new Error("Entity ID were not inicialized");
-    }
-    if (this.entityIDFactory[className]) {
-      return this.entityIDFactory[className];
-    }
-    return this.entityIDFactory["default"];
-  }
-}
+import { EntityIDFactory, UniqueEntityIDGeneratorFactory } from "@domain/index";
+import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
 
 describe("Unique entity ID generator Factory", () => {
   it("should get factory instance not inicialized", () => {
