@@ -10,7 +10,7 @@ module.exports = {
   },
   moduleNameMapper: {
     "@application/(.*)": "<rootDir>/src/application/$1",
-    "@entities/(.*)": "<rootDir>/src/entities/$1",
+    "@domain/(.*)": "<rootDir>/src/domain/$1",
     "@infra/(.*)": "<rootDir>/src/infra/$1",
     "@adapters/(.*)": "<rootDir>/src/adapters/$1",
     "@helpers/(.*)": "<rootDir>/src/helpers/$1",
