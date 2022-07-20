@@ -1,24 +1,11 @@
+import { RegisterAccountBasicInfo } from "@application/protocols/register-account";
 import { ICPFCheckerService } from "../helpers/cpf-services";
-
-type RegisterAccountBasicInfoRequestDTO = {
-  name: string;
-  birthDate: Date;
-  address: string;
-  cpf: string;
-  rg: string;
-};
-
-type RegisterAccountBasicInfoResponseDTO = {
-  status: number;
-  data?: RegisterAccountBasicInfoRequestDTO;
-  message: string;
-};
 
 export class RegisterAccountBasicInfoUseCase {
   constructor(private cpfChecker: ICPFCheckerService) {}
   execute(
-    params: RegisterAccountBasicInfoRequestDTO
-  ): RegisterAccountBasicInfoResponseDTO {
+    params: RegisterAccountBasicInfo.Params
+  ): RegisterAccountBasicInfo.Result {
     if (!this.cpfChecker.check({ ...params }).check) {
       return {
         message: "Invalid CPF",
