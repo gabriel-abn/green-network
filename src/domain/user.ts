@@ -1,4 +1,4 @@
-type UserProps = {
+export type UserProps = {
   name: string;
   birthDate: Date;
   address: string;

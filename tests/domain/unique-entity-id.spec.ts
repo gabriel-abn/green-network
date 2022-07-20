@@ -1,15 +1,4 @@
-import { Identifier } from "@domain/common/identifier";
-
-class UniqueEntityID extends Identifier {
-  constructor(id: string) {
-    if (!id) {
-      throw new Error(
-        "Unable to create unique entity id: must have a non null value"
-      );
-    }
-    super(id);
-  }
-}
+import { UniqueEntityID } from "@domain/index";
 
 describe("Unique Entity ID generation", () => {
   it("should create unique entity id", () => {
