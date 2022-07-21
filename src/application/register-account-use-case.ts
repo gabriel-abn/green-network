@@ -1,34 +1,36 @@
 import { RegisterAccountBasicInfo } from "@application/protocols/register-account";
+import { User } from "@domain/user";
 import { ICPFCheckerService } from "@helpers/cpf-services";
+import { Interactor } from "./common/interactor";
+import { Presenter } from "./common/presenter";
+import { ApplicationError } from "./errors/application-error";
 
-export class RegisterAccountBasicInfoUseCase {
-  constructor(private cpfChecker: ICPFCheckerService) {}
-  execute(
-    params: RegisterAccountBasicInfo.Params
-  ): RegisterAccountBasicInfo.Result {
+type RegisterAccountBasicInfoUseCaseParams = {
+  presenter: Presenter<RegisterAccountBasicInfo.Params>;
+  cpfChecker: ICPFCheckerService;
+};
+
+export class RegisterAccountBasicInfoUseCase extends Interactor<
+  RegisterAccountBasicInfo.Params,
+  RegisterAccountBasicInfo.Result
+> {
+  private cpfChecker: ICPFCheckerService;
+  constructor(params: RegisterAccountBasicInfoUseCaseParams) {
+    super(params.presenter);
+    this.cpfChecker = params.cpfChecker;
+  }
+  protected execute(params: RegisterAccountBasicInfo.Params) {
     if (this.cpfChecker.check({ ...params }).message == "Invalid CPF") {
-      return {
-        message: "Invalid CPF",
-        status: 400,
-      };
+      throw new ApplicationError("invalid_cpf", "Invalid CPF");
     }
     if (this.cpfChecker.check({ ...params }).message == "Invalid RG") {
-      return {
-        message: "Invalid RG",
-        status: 400,
-      };
+      throw new ApplicationError("invalid_rg", "Invalid RG");
     }
 
-    if (new Date().getFullYear() - params.birthDate.getFullYear() < 21) {
-      return {
-        message: "Age not allowed",
-        status: 400,
-      };
-    }
-
+    const user = User.create({ ...params });
     return {
       data: {
-        ...params,
+        ...user.props,
       },
       status: 200,
       message: "Basic information registered with success",
