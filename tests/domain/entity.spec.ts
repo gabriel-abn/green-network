@@ -4,33 +4,22 @@ import {
   UniqueEntityIDGeneratorFactory,
   User,
 } from "@domain/index";
+import { mockUser } from "@tests/mocks/user-mock";
 import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
 
 const makeSut = () => {
   const spyID = new UniqueEntityID("any_id");
-  const user1 = User.create({
-    id: spyID,
-    name: "test_name1",
-    birthDate: new Date("2000-09-20"),
-    address: "Rua Francisco Teles, 41, Alvorada - address_1",
-    cpf: "12345678900_1",
-    rg: "12345678_1",
-  });
-  const user2 = User.create({
-    id: spyID,
-    name: "test_name1",
-    birthDate: new Date("2000-09-20"),
-    address: "Rua Francisco Teles, 41, Alvorada - address_1",
-    cpf: "12345678900_1",
-    rg: "12345678_1",
-  });
-  const user3 = User.create({
-    name: "test_name1",
-    birthDate: new Date("2000-09-20"),
-    address: "Rua Francisco Teles, 41, Alvorada - address_1",
-    cpf: "12345678900_1",
-    rg: "12345678_1",
-  });
+  const user1 = User.create(
+    mockUser({
+      id: spyID,
+    })
+  );
+  const user2 = User.create(
+    mockUser({
+      id: spyID,
+    })
+  );
+  const user3 = User.create(mockUser());
 
   return { user1, user2, user3 };
 };
