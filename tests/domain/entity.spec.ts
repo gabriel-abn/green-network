@@ -8,7 +8,7 @@ import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
 
 const makeSut = () => {
   const spyID = new UniqueEntityID("any_id");
-  const user1 = new User({
+  const user1 = User.create({
     id: spyID,
     name: "test_name1",
     birthDate: new Date("2000-09-20"),
@@ -16,7 +16,7 @@ const makeSut = () => {
     cpf: "12345678900_1",
     rg: "12345678_1",
   });
-  const user2 = new User({
+  const user2 = User.create({
     id: spyID,
     name: "test_name1",
     birthDate: new Date("2000-09-20"),
@@ -24,7 +24,7 @@ const makeSut = () => {
     cpf: "12345678900_1",
     rg: "12345678_1",
   });
-  const user3 = new User({
+  const user3 = User.create({
     name: "test_name1",
     birthDate: new Date("2000-09-20"),
     address: "Rua Francisco Teles, 41, Alvorada - address_1",
