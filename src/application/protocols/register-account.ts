@@ -1,5 +1,8 @@
+import { UniqueEntityID } from "@domain/common/unique-entity-id";
+
 export namespace RegisterAccountBasicInfo {
   export type Params = {
+    id?: UniqueEntityID;
     name: string;
     birthDate: Date;
     address: string;

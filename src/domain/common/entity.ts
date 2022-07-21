@@ -10,7 +10,7 @@ interface Properties {
 }
 
 export abstract class Entity<T extends Properties> {
-  protected props: T;
+  public props: T;
   protected readonly _id: UniqueEntityID;
   
   constructor(props: T) {

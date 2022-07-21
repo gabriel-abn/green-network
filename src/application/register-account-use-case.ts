@@ -1,18 +1,18 @@
 import { RegisterAccountBasicInfo } from "@application/protocols/register-account";
-import { ICPFCheckerService } from "../helpers/cpf-services";
+import { ICPFCheckerService } from "@helpers/cpf-services";
 
 export class RegisterAccountBasicInfoUseCase {
   constructor(private cpfChecker: ICPFCheckerService) {}
   execute(
     params: RegisterAccountBasicInfo.Params
   ): RegisterAccountBasicInfo.Result {
-    if (!this.cpfChecker.check({ ...params }).check) {
+    if (this.cpfChecker.check({ ...params }).message == "Invalid CPF") {
       return {
         message: "Invalid CPF",
         status: 400,
       };
     }
-    if (this.cpfChecker.check({ ...params }).data?.rg != params.rg) {
+    if (this.cpfChecker.check({ ...params }).message == "Invalid RG") {
       return {
         message: "Invalid RG",
         status: 400,
