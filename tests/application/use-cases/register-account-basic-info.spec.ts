@@ -3,25 +3,21 @@ import {
   EntityIDFactory,
   UniqueEntityIDGeneratorFactory,
 } from "@domain/common/id-generator-factory";
+import { UserProps } from "@domain/user";
 import { RegisterAccountUseCasePresenter } from "@tests/adapters/mocks/register-user-presenter-spy";
 import { CPFCheckerSpy } from "@tests/mocks/cpf-check-service-spy";
+import { mockUser } from "@tests/mocks/user-mock";
 import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
 
-const makeSut = () => {
+const makeSut = (mockConfig?: Partial<UserProps>) => {
   const sutParams = {
     presenter: new RegisterAccountUseCasePresenter(),
     cpfChecker: new CPFCheckerSpy(),
   };
   const sut = new RegisterAccountBasicInfoUseCase({ ...sutParams });
-  // const mock = {
-  //   name: "Gabriel Antonio",
-  //   birthDate: new Date("2000-09-20"),
-  //   address: "Rua Francisco Teles, 41, Alvorada",
-  //   cpf: "12345678900",
-  //   rg: "12345678",
-  // };
+  const mock_user = mockUser(mockConfig);
 
-  return { sut };
+  return { sut, mock_user };
 };
 
 describe("First step of user register", () => {
@@ -32,54 +28,32 @@ describe("First step of user register", () => {
     UniqueEntityIDGeneratorFactory.getInstance().inicialize(factories);
   });
   it("should receive correct params and return account info and a status 200", async () => {
-    const { sut } = makeSut();
-    const request = {
-      name: "Gabriel Antonio",
-      birthDate: new Date("2000-09-20"),
-      address: "Rua Francisco Teles, 41, Alvorada",
-      cpf: "12345678900",
-      rg: "12345678",
-    };
+    const { sut, mock_user } = makeSut();
     const httpResponse = await sut.run({
-      ...request,
+      ...mock_user,
     });
-    expect(httpResponse.data).toEqual({ ...request });
+    expect(httpResponse.data).toEqual({ ...mock_user });
     expect(httpResponse.status).toBe(200);
   });
   it("should not allow users registration with less than 18 years old", async () => {
-    const { sut } = makeSut();
-    const request = {
-      name: "Gabriel Antonio",
+    const { sut, mock_user } = makeSut({
       birthDate: new Date("2004-09-20"),
-      address: "Rua Francisco Teles, 41, Alvorada",
-      cpf: "12345678900",
-      rg: "12345678",
-    };
-    const httpResponse = await sut.run({ ...request });
+    });
+    const httpResponse = await sut.run({ ...mock_user });
     expect(httpResponse.error?.name).toBe("invalid_age");
   });
   it("should ensure user's cpf is correct", async () => {
-    const { sut } = makeSut();
-    const request = {
-      name: "Gabriel Antonio",
-      birthDate: new Date("2000-09-20"),
-      address: "Rua Francisco Teles, 41, Alvorada",
+    const { sut, mock_user } = makeSut({
       cpf: "123456789",
-      rg: "12345678",
-    };
-    const httpResponse = await sut.run({ ...request });
+    });
+    const httpResponse = await sut.run({ ...mock_user });
     expect(httpResponse.message).toBe("Invalid CPF");
   });
   it("should ensure user's rg is correct", async () => {
-    const { sut } = makeSut();
-    const request = {
-      name: "Gabriel Antonio",
-      birthDate: new Date("2000-09-20"),
-      address: "Rua Francisco Teles, 41, Alvorada",
-      cpf: "12345678900",
-      rg: "1234",
-    };
-    const httpResponse = await sut.run({ ...request });
+    const { sut, mock_user } = makeSut({
+      rg: "123",
+    });
+    const httpResponse = await sut.run({ ...mock_user });
     expect(httpResponse.message).toBe("Invalid RG");
   });
 });
