@@ -1,25 +1,25 @@
-import { RegisterAccountBasicInfo } from "@application/protocols/register-account";
+import { Interactor } from "@application/common/interactor";
+import { Presenter } from "@application/common/presenter";
+import { ApplicationError } from "@application/errors/application-error";
+import { RegisterAccountDTO } from "@application/protocols/register-account";
 import { User } from "@domain/user";
 import { ICPFCheckerService } from "@helpers/cpf-services";
-import { Interactor } from "./common/interactor";
-import { Presenter } from "./common/presenter";
-import { ApplicationError } from "./errors/application-error";
 
-type RegisterAccountBasicInfoUseCaseParams = {
-  presenter: Presenter<RegisterAccountBasicInfo.Params>;
+type RegisterAccountUseCaseParams = {
+  presenter: Presenter<RegisterAccountDTO.Params>;
   cpfChecker: ICPFCheckerService;
 };
 
-export class RegisterAccountBasicInfoUseCase extends Interactor<
-  RegisterAccountBasicInfo.Params,
-  RegisterAccountBasicInfo.Result
+export class RegisterAccountUseCase extends Interactor<
+  RegisterAccountDTO.Params,
+  RegisterAccountDTO.Result
 > {
   private cpfChecker: ICPFCheckerService;
-  constructor(params: RegisterAccountBasicInfoUseCaseParams) {
+  constructor(params: RegisterAccountUseCaseParams) {
     super(params.presenter);
     this.cpfChecker = params.cpfChecker;
   }
-  protected execute(params: RegisterAccountBasicInfo.Params) {
+  protected execute(params: RegisterAccountDTO.Params) {
     if (this.cpfChecker.check({ ...params }).message == "Invalid CPF") {
       throw new ApplicationError("invalid_cpf", "Invalid CPF");
     }

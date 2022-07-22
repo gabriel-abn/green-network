@@ -1,13 +1,13 @@
 import { Presenter } from "@application/common/presenter";
 import { ResponseModel } from "@application/common/response-model";
-import { RegisterAccountBasicInfo } from "@application/protocols/register-account";
+import { RegisterAccountDTO } from "@application/protocols/register-account";
 
 export class RegisterAccountUseCasePresenter
-  implements Presenter<RegisterAccountBasicInfo.Params>
+  implements Presenter<RegisterAccountDTO.Params>
 {
   showSuccess(
-    response: RegisterAccountBasicInfo.Params
-  ): ResponseModel<RegisterAccountBasicInfo.Params> {
+    response: RegisterAccountDTO.Params
+  ): ResponseModel<RegisterAccountDTO.Params> {
     return {
       data: {
         ...response,

@@ -1,10 +1,10 @@
-import { RegisterAccountBasicInfoUseCase } from "@application/register-account-use-case";
+import { RegisterAccountUseCasePresenter } from "@adapters/register-account/register-user.presenter";
+import { RegisterAccountUseCase } from "@application/use-cases/register-account/register-account.interactor";
 import {
   EntityIDFactory,
   UniqueEntityIDGeneratorFactory,
 } from "@domain/common/id-generator-factory";
 import { UserProps } from "@domain/user";
-import { RegisterAccountUseCasePresenter } from "@tests/adapters/mocks/register-user-presenter-spy";
 import { CPFCheckerSpy } from "@tests/mocks/cpf-check-service-spy";
 import { mockUser } from "@tests/mocks/user-mock";
 import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
@@ -14,7 +14,7 @@ const makeSut = (mockConfig?: Partial<UserProps>) => {
     presenter: new RegisterAccountUseCasePresenter(),
     cpfChecker: new CPFCheckerSpy(),
   };
-  const sut = new RegisterAccountBasicInfoUseCase({ ...sutParams });
+  const sut = new RegisterAccountUseCase({ ...sutParams });
   const mock_user = mockUser(mockConfig);
 
   return { sut, mock_user };
@@ -56,4 +56,12 @@ describe("First step of user register", () => {
     const httpResponse = await sut.run({ ...mock_user });
     expect(httpResponse.message).toBe("Invalid RG");
   });
+  // it("should throw if email is invalid", async () => {
+  //   const { sut, mock_user } = makeSut({
+  //     email: "invalid_email",
+  //   });
+  //   expect(async () => {
+  //     await sut.run({ ...mock_user });
+  //   }).toThrow();
+  // });
 });
