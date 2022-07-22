@@ -1,5 +1,5 @@
 import { EntityIDFactory, UniqueEntityIDGeneratorFactory } from "@domain/index";
-import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
+import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
 
 describe("Unique entity ID generator Factory", () => {
   it("should get factory instance not inicialized", () => {

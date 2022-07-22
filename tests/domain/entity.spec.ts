@@ -4,8 +4,8 @@ import {
   UniqueEntityIDGeneratorFactory,
   User,
 } from "@domain/index";
-import { mockUser } from "@tests/mocks/user-mock";
-import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
+import { mockUser } from "@tests/domain/mocks/user-mock";
+import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
 
 const makeSut = () => {
   const spyID = new UniqueEntityID("any_id");

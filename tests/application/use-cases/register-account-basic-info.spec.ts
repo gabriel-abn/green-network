@@ -5,9 +5,9 @@ import {
   UniqueEntityIDGeneratorFactory,
 } from "@domain/common/id-generator-factory";
 import { UserProps } from "@domain/user";
-import { CPFCheckerSpy } from "@tests/mocks/cpf-check-service-spy";
-import { mockUser } from "@tests/mocks/user-mock";
-import { UUIDEntity } from "@tests/mocks/uuid-generator-spy";
+import { mockUser } from "@tests/domain/mocks/user-mock";
+import { CPFCheckerSpy } from "@tests/infra/mocks/cpf-check-service-spy";
+import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
 
 const makeSut = (mockConfig?: Partial<UserProps>) => {
   const sutParams = {
