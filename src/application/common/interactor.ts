@@ -2,6 +2,9 @@ import { ApplicationError } from "@application/errors/application-error";
 import { DomainError } from "@domain/errors/domain-error";
 import { Presenter } from "./presenter";
 
+// FIXME Reformular generics de <Input, Response>
+// TODO Verificar retorno da função "execute" e parâmetros do Presenter
+
 export abstract class Interactor<Input, Response> {
   private presenter: Presenter<Response>;
   public abstract execute(execute: Input): Promise<Response>;

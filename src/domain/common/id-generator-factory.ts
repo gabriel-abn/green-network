@@ -12,8 +12,7 @@ export class UniqueEntityIDGeneratorFactory {
 
   public static getInstance() {
     if (!UniqueEntityIDGeneratorFactory.instance) {
-      UniqueEntityIDGeneratorFactory.instance =
-        new UniqueEntityIDGeneratorFactory();
+      UniqueEntityIDGeneratorFactory.instance = new UniqueEntityIDGeneratorFactory();
     }
     return UniqueEntityIDGeneratorFactory.instance;
   }
@@ -23,7 +22,7 @@ export class UniqueEntityIDGeneratorFactory {
   }
 
   public getIdGeneratorFor(entity?: any): UniqueEntityIDGenerator {
-    const className = "test";
+    const className = entity.constructor.className;
     if (!this.entityIDFactory) {
       throw new Error("Entity ID were not inicialized");
     }

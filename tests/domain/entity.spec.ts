@@ -1,11 +1,9 @@
-import {
-  EntityIDFactory,
-  UniqueEntityID,
-  UniqueEntityIDGeneratorFactory,
-  User,
-} from "@domain/index";
+import { EntityIDFactory, UniqueEntityID, UniqueEntityIDGeneratorFactory, User } from "@domain/index";
 import { mockUser } from "@tests/domain/mocks/user-mock";
 import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
+
+// TODO Criar sub-class de Entity para garantir certos comportamentos em comum da classe
+// TODO Retirar o mock da classe User
 
 const makeSut = () => {
   const spyID = new UniqueEntityID("any_id");

@@ -1,6 +1,9 @@
 import { EntityIDFactory, UniqueEntityIDGeneratorFactory } from "@domain/index";
 import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
 
+// TODO Garantir que o index da EntityIDFactory é realmente "default"
+// TODO Garantir que o index da EntityIDFactory seja o nome de uma classe
+
 describe("Unique entity ID generator Factory", () => {
   it("should get factory instance not inicialized", () => {
     const factory = UniqueEntityIDGeneratorFactory.getInstance();

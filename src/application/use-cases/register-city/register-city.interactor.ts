@@ -14,6 +14,9 @@ type RegisterCityUseCaseParams = {
   presenter: Presenter<RegisterCityParams.Response>;
 };
 
+// FIXME Retirar todo tipo de retorno que deve ser responsabilidade do presenter
+// TODO Verificar o uso dos serviços e repositórios
+
 export class RegisterCityUseCase extends Interactor<RegisterCityParams.Params, RegisterCityParams.Response> {
   private readonly registerCityRepository: IRegisterCityRepository;
   private readonly getCityRepository: IGetCityRepository;
