@@ -1,9 +1,6 @@
-import { RegisterAccountUseCasePresenter } from "@adapters/register-account/register-user.presenter";
+import { RegisterAccountUseCasePresenter } from "@adapters/user/register-user.presenter";
 import { RegisterAccountUseCase } from "@application/use-cases/register-account/register-account.interactor";
-import {
-  EntityIDFactory,
-  UniqueEntityIDGeneratorFactory,
-} from "@domain/common/id-generator-factory";
+import { EntityIDFactory, UniqueEntityIDGeneratorFactory } from "@domain/common/id-generator-factory";
 import { UserProps } from "@domain/user";
 import { mockUser } from "@tests/domain/mocks/user-mock";
 import { CPFCheckerSpy } from "@tests/infra/mocks/cpf-check-service-spy";

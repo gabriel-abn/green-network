@@ -1,7 +1,7 @@
 import { Interactor } from "@application/common/interactor";
 import { Presenter } from "@application/common/presenter";
 import { ApplicationError } from "@application/errors/application-error";
-import { RegisterAccountDTO } from "@application/protocols/register-account";
+import { RegisterAccountDTO } from "@application/protocols/user/register-account";
 import { User } from "@domain/user";
 import { ICPFCheckerService } from "@helpers/cpf-services";
 
@@ -10,10 +10,7 @@ type RegisterAccountUseCaseParams = {
   cpfChecker: ICPFCheckerService;
 };
 
-export class RegisterAccountUseCase extends Interactor<
-  RegisterAccountDTO.Params,
-  RegisterAccountDTO.Result
-> {
+export class RegisterAccountUseCase extends Interactor<RegisterAccountDTO.Params, RegisterAccountDTO.Response> {
   private cpfChecker: ICPFCheckerService;
   constructor(params: RegisterAccountUseCaseParams) {
     super(params.presenter);
