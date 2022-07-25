@@ -1,27 +1,7 @@
-import { UniqueEntityIDGenerator } from "@domain/common/id-generator";
-import { Entity, EntityIDFactory, UniqueEntityID, UniqueEntityIDGeneratorFactory } from "@domain/index";
+import { EntityIDFactory, UniqueEntityIDGeneratorFactory } from "@domain/index";
 import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
-
-// TODO Garantir que o index da EntityIDFactory seja o nome de uma classe
-class UUIDTestEntity implements UniqueEntityIDGenerator {
-  nextID(): UniqueEntityID {
-    return new UniqueEntityID("test_id");
-  }
-}
-
-interface TestProps {
-  id?: UniqueEntityID;
-}
-
-class TestClass extends Entity<TestProps> {
-  private constructor(props: TestProps) {
-    super(props);
-  }
-
-  static create(props: TestProps) {
-    return new TestClass({ ...props });
-  }
-}
+import { UUIDTestEntity } from "./mocks/common/uuid-generator-spy";
+import { TestClass } from "./mocks/test-mock";
 
 describe("Unique entity ID generator Factory", () => {
   it("should not get factory instance not inicialized", () => {
