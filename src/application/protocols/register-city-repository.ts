@@ -1,5 +1,4 @@
-import { CityProps } from "@domain/city";
-import { RegisterCityParams } from "./register-city-dto";
+import { RegisterCityParams } from "@domain/protocols/city/register-city-use-case.dto";
 
 export interface IRegisterCityRepository {
   insertCity(code: RegisterCityRepository.Params): Promise<RegisterCityRepository.Result>;
@@ -7,12 +6,5 @@ export interface IRegisterCityRepository {
 
 export namespace RegisterCityRepository {
   export type Params = RegisterCityParams.Params;
-  export type Result = {
-    process: boolean;
-    data?: Partial<CityProps>;
-    error?: {
-      name: string;
-      message: string;
-    };
-  };
+  export type Result = boolean;
 }

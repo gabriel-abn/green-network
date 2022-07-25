@@ -1,18 +1,12 @@
+import { GetCityRepository, IGetCityRepository } from "@application/protocols/get-city-repository";
+import { IRegisterCityRepository, RegisterCityRepository } from "@application/protocols/register-city-repository";
 import { CityProps } from "@domain/city";
-import { GetCityRepository, IGetCityRepository } from "@domain/protocols/city/get-city-repository";
-import { IRegisterCityRepository, RegisterCityRepository } from "@domain/protocols/city/register-city-repository";
 
 export class RegisterCityRepositorySpy implements IRegisterCityRepository {
   params: RegisterCityRepository.Params;
   async insertCity(code: CityProps): Promise<RegisterCityRepository.Result> {
     this.params = code;
-    return {
-      data: {
-        ...this.params,
-      },
-      message: "Success",
-      status: 200,
-    };
+    return true;
   }
 }
 

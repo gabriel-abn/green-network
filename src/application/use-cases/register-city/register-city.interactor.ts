@@ -1,10 +1,11 @@
 import { Interactor } from "@application/common/interactor";
 import { Presenter } from "@application/common/presenter";
 import { ApplicationError } from "@application/errors/application-error";
+import { IGetCityRepository } from "@application/protocols/get-city-repository";
+import { IRegisterCityRepository } from "@application/protocols/register-city-repository";
 import { DomainError } from "@domain/errors/domain-error";
-import { IGetCityRepository } from "@domain/protocols/city/get-city-repository";
-import { RegisterCityParams } from "@domain/protocols/city/register-city-dto";
-import { IRegisterCityRepository } from "@domain/protocols/city/register-city-repository";
+import { RegisterCityParams } from "@domain/protocols/city/register-city-use-case.dto";
+
 import { ICityCodeService } from "@helpers/ibge-code-validator";
 
 type RegisterCityUseCaseParams = {
@@ -33,25 +34,21 @@ export class RegisterCityUseCase extends Interactor<RegisterCityParams.Params, R
     if (Object.values(execute).includes("")) {
       throw new ApplicationError("missing_params", "Missing param");
     }
-    let insert;
+    let insert: boolean;
     try {
       insert = await this.registerCityRepository.insertCity(execute);
       return {
-        data: {
-          ...insert.data,
+        check: insert,
+        info: {
+          ...execute,
         },
-        message: "Success",
-        status: 200,
-        check: true,
       };
     } catch (error) {
       if (error instanceof ApplicationError || error instanceof DomainError) {
-        throw new Error(error.message);
+        throw error;
       }
     }
     return {
-      message: "unknown error",
-      status: 500,
       check: false,
     };
   }
