@@ -2,9 +2,6 @@ import { EntityIDFactory, isEntity, UniqueEntityID, UniqueEntityIDGeneratorFacto
 import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
 import { TestClass } from "./mocks/test-mock";
 
-// TODO Criar sub-class de Entity para garantir certos comportamentos em comum da classe
-// TODO Retirar o mock da classe User
-
 const makeSut = () => {
   const spyID = new UniqueEntityID("any_id");
   const baseEntityMock = TestClass.create({
@@ -18,7 +15,7 @@ const makeSut = () => {
   return { baseEntityMock, compareEntityMock, falseCompareEntityMock };
 };
 
-describe("Basic entity manipulation using User entity", () => {
+describe("Basic entity manipulation using test entity", () => {
   beforeAll(() => {
     const factories: EntityIDFactory = {
       ["default"]: new UUIDEntity(),
