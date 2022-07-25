@@ -1,3 +1,4 @@
+import { Entity } from "./entity";
 import { UniqueEntityIDGenerator } from "./id-generator";
 
 export type EntityIDFactory = {
@@ -22,7 +23,10 @@ export class UniqueEntityIDGeneratorFactory {
   }
 
   public getIdGeneratorFor(entity?: any): UniqueEntityIDGenerator {
-    const className = entity.constructor.className;
+    let className: string = "";
+    if (entity instanceof Entity<any>) {
+      className = entity.constructor.name;
+    }
     if (!this.entityIDFactory) {
       throw new Error("Entity ID were not inicialized");
     }
