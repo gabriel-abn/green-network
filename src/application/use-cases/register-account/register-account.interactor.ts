@@ -1,7 +1,7 @@
 import { Interactor } from "@application/common/interactor";
 import { Presenter } from "@application/common/presenter";
 import { ApplicationError } from "@application/errors/application-error";
-import { RegisterAccountDTO } from "@application/protocols/user/register-account";
+import { RegisterAccountDTO } from "@domain/protocols/user/register-account";
 import { User } from "@domain/user";
 import { ICPFCheckerService } from "@helpers/cpf-services";
 

@@ -1,10 +1,10 @@
 import { Interactor } from "@application/common/interactor";
 import { Presenter } from "@application/common/presenter";
 import { ApplicationError } from "@application/errors/application-error";
-import { IGetCityRepository } from "@application/protocols/city/get-city-repository";
-import { RegisterCityParams } from "@application/protocols/city/register-city-dto";
-import { IRegisterCityRepository } from "@application/protocols/city/register-city-repository";
 import { DomainError } from "@domain/errors/domain-error";
+import { IGetCityRepository } from "@domain/protocols/city/get-city-repository";
+import { RegisterCityParams } from "@domain/protocols/city/register-city-dto";
+import { IRegisterCityRepository } from "@domain/protocols/city/register-city-repository";
 import { ICityCodeService } from "@helpers/ibge-code-validator";
 
 type RegisterCityUseCaseParams = {

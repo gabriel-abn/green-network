@@ -1,6 +1,6 @@
-import { GetCityRepository, IGetCityRepository } from "@application/protocols/city/get-city-repository";
-import { IRegisterCityRepository, RegisterCityRepository } from "@application/protocols/city/register-city-repository";
 import { CityProps } from "@domain/city";
+import { GetCityRepository, IGetCityRepository } from "@domain/protocols/city/get-city-repository";
+import { IRegisterCityRepository, RegisterCityRepository } from "@domain/protocols/city/register-city-repository";
 
 export class RegisterCityRepositorySpy implements IRegisterCityRepository {
   params: RegisterCityRepository.Params;

@@ -1,4 +1,4 @@
-import { RegisterCityPresenter } from "@adapters/city/register-city.presenter";
+import RegisterCityPresenter from "@adapters/city/register-city.presenter";
 import { RegisterCityUseCase } from "@application/use-cases/register-city/register-city.interactor";
 import { CityProps } from "@domain/city";
 import { ICityCodeService } from "@helpers/ibge-code-validator";

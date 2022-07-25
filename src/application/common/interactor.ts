@@ -21,7 +21,7 @@ export abstract class Interactor<Input, Response> {
       if (error instanceof ApplicationError || error instanceof DomainError) {
         return this.presenter.showError(error);
       }
-      throw new Error("Unexpected Error");
+      throw new ApplicationError("unkonwn", "Unexpected Error");
     }
   }
 }
