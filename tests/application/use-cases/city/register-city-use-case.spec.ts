@@ -29,37 +29,36 @@ describe("register city", () => {
     const { sut } = makeSut();
     const mock = mockCity({});
     const response = await sut.run({ ...mock });
-    console.log(response);
     expect(response.data?.info).toEqual({ ...mock });
   });
   it("should not register if any param is empty", async () => {
     const { sut } = makeSut();
     const mock = mockCity({
-      ibgeCode: "",
+      ibgeCode: " ",
     });
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("missing_params");
+    expect(response.error?.name).toBe("Application error: missing_params");
     expect(response.data).toBe(undefined);
   });
   it("should not register if code is wrong", async () => {
     const { sut } = makeSut();
     const mock = mockCity({});
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("invalid_city_code");
+    expect(response.error?.message).toBe("Application error: invalid_city_code");
     expect(response.data).toBe(undefined);
   });
   it("should return false if city already exists", async () => {
     const { sut } = makeSut();
     const mock = mockCity();
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("city_already_exists");
+    expect(response.error?.name).toBe("Application error: city_already_exists");
     expect(response.data).toBe(undefined);
   });
   it("should return false if city's name contains special characters", async () => {
     const { sut } = makeSut();
     const mock = mockCity();
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("invalid_city_code");
+    expect(response.error?.name).toBe("Application error: invalid_city_code");
     expect(response.data).toBe(undefined);
   });
 });

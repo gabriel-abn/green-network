@@ -31,8 +31,8 @@ export class RegisterCityUseCase extends Interactor<RegisterCityParams.Params, R
   }
 
   async execute(execute: RegisterCityParams.Params) {
-    if (Object.values(execute).includes("")) {
-      throw new ApplicationError("missing_params", "Missing param");
+    if (Object.values(execute).includes(" ")) {
+      throw new ApplicationError("missing_params", "Missing Params");
     }
     let insert: boolean;
     try {

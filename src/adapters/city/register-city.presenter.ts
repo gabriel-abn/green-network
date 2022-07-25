@@ -13,6 +13,10 @@ export class RegisterCityPresenter implements Presenter<RegisterCityParams.Respo
     };
   }
   showError(error: Error): ResponseModel<void> {
-    throw new Error("Method not implemented.");
+    return {
+      message: error.message,
+      status: 400,
+      error: error,
+    };
   }
 }
