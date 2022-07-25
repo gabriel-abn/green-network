@@ -27,7 +27,6 @@ describe("Unique entity ID generator Factory", () => {
     };
     factory.inicialize(gen);
     const test = TestClass.create({});
-    console.log(test);
     expect(test).toHaveProperty("_id.value", "test_id");
   });
 });
