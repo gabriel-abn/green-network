@@ -6,8 +6,15 @@ import { mockCity } from "@tests/domain/mocks/city-mock";
 import { GetCityRepositorySpy, RegisterCityRepositorySpy } from "@tests/infra/repositories/city-repository-spy";
 
 class IBGEServiceSpy implements ICityCodeService {
-  findByCode(code: string): Promise<CityProps> {
-    throw new Error("Method not implemented.");
+  async findByCode(code: string): Promise<CityProps> {
+    if (code == "wrong_code") {
+      return {
+        ibgeCode: "",
+        name: "",
+        state: "",
+      };
+    }
+    return { ...mockCity() };
   }
 }
 
@@ -24,7 +31,7 @@ const makeSut = () => {
   return { sut };
 };
 
-describe("register city", () => {
+describe("register city use case", () => {
   it("should register and return success ", async () => {
     const { sut } = makeSut();
     const mock = mockCity({});
@@ -37,28 +44,42 @@ describe("register city", () => {
       ibgeCode: " ",
     });
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("Application error: missing_params");
+    expect(response.error?.name).toBe("missing_params");
     expect(response.data).toBe(undefined);
   });
   it("should not register if code is wrong", async () => {
     const { sut } = makeSut();
-    const mock = mockCity({});
+    const mock = mockCity({
+      ibgeCode: "wrong_code",
+    });
     const response = await sut.run({ ...mock });
-    expect(response.error?.message).toBe("Application error: invalid_city_code");
+    expect(response.error?.name).toBe("invalid_city_code");
     expect(response.data).toBe(undefined);
   });
   it("should return false if city already exists", async () => {
     const { sut } = makeSut();
-    const mock = mockCity();
+    const mock = mockCity({
+      ibgeCode: "already_exists",
+    });
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("Application error: city_already_exists");
+    expect(response.error?.name).toBe("city_already_exists");
     expect(response.data).toBe(undefined);
   });
   it("should return false if city's name contains special characters", async () => {
     const { sut } = makeSut();
-    const mock = mockCity();
+    const mock = mockCity({
+      name: "/belo horizonte",
+    });
     const response = await sut.run({ ...mock });
-    expect(response.error?.name).toBe("Application error: invalid_city_code");
+    expect(response.error?.name).toBe("invalid_state_or_name");
     expect(response.data).toBe(undefined);
+  });
+  it("should throw if repository throws an error", async () => {
+    const { sut } = makeSut();
+    const mock = mockCity({
+      ibgeCode: "ERROR",
+    });
+    const response = await sut.run({ ...mock });
+    expect(response.error?.name).toBe("internal_error");
   });
 });

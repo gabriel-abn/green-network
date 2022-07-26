@@ -9,7 +9,7 @@ export namespace GetCityRepository {
     code: string;
   }
   export interface Result {
-    data: CityProps;
-    error?: Error;
+    data?: CityProps;
+    check: boolean;
   }
 }

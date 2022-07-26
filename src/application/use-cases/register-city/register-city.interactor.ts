@@ -34,6 +34,18 @@ export class RegisterCityUseCase extends Interactor<RegisterCityParams.Params, R
     if (Object.values(execute).includes(" ")) {
       throw new ApplicationError("missing_params", "Missing Params");
     }
+    const validCityCode = await this.ibge_service.findByCode(execute.ibgeCode);
+    if (!validCityCode.ibgeCode) {
+      throw new ApplicationError("invalid_city_code", "Invalid IBGE city code.");
+    }
+    const existCity = await this.getCityRepository.getCity({ code: execute.ibgeCode });
+    if (existCity.check) {
+      throw new ApplicationError("city_already_exists", "Invalid city register beacuse city already exists.");
+    }
+    const specialCaracters = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (specialCaracters.test(execute.name) || specialCaracters.test(execute.state)) {
+      throw new ApplicationError("invalid_state_or_name", "City or state name may contain special characters");
+    }
     let insert: boolean;
     try {
       insert = await this.registerCityRepository.insertCity(execute);
@@ -44,6 +56,7 @@ export class RegisterCityUseCase extends Interactor<RegisterCityParams.Params, R
         },
       };
     } catch (error) {
+      console.log("passou aq");
       if (error instanceof ApplicationError || error instanceof DomainError) {
         throw error;
       }
