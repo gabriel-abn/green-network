@@ -1,30 +1,21 @@
-import {
-  EntityIDFactory,
-  UniqueEntityID,
-  UniqueEntityIDGeneratorFactory,
-  User,
-} from "@domain/index";
-import { mockUser } from "@tests/domain/mocks/user-mock";
+import { EntityIDFactory, isEntity, UniqueEntityID, UniqueEntityIDGeneratorFactory } from "@domain/index";
 import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
+import { TestClass } from "./mocks/test-mock";
 
 const makeSut = () => {
   const spyID = new UniqueEntityID("any_id");
-  const user1 = User.create(
-    mockUser({
-      id: spyID,
-    })
-  );
-  const user2 = User.create(
-    mockUser({
-      id: spyID,
-    })
-  );
-  const user3 = User.create(mockUser());
+  const baseEntityMock = TestClass.create({
+    id: spyID,
+  });
+  const compareEntityMock = TestClass.create({
+    id: spyID,
+  });
+  const falseCompareEntityMock = TestClass.create({});
 
-  return { user1, user2, user3 };
+  return { baseEntityMock, compareEntityMock, falseCompareEntityMock };
 };
 
-describe("Basic entity manipulation using User entity", () => {
+describe("Basic entity manipulation using test entity", () => {
   beforeAll(() => {
     const factories: EntityIDFactory = {
       ["default"]: new UUIDEntity(),
@@ -33,23 +24,23 @@ describe("Basic entity manipulation using User entity", () => {
   });
 
   it("should get an instance of an entity", () => {
-    const { user1 } = makeSut();
-    expect(user1).toBeInstanceOf(User);
+    const { baseEntityMock } = makeSut();
+    expect(isEntity(baseEntityMock)).toBe(true);
   });
-  it("should return true if function equals self-receive", () => {
-    const { user1 } = makeSut();
-    expect(user1.equals(user1)).toBe(true);
+  it("should return true if function equals receive itself", () => {
+    const { baseEntityMock } = makeSut();
+    expect(baseEntityMock.equals(baseEntityMock)).toBe(true);
   });
   it("should return true if function equals receive another instance with same props", () => {
-    const { user1, user2 } = makeSut();
-    expect(user1.equals(user2)).toBe(true);
+    const { baseEntityMock, compareEntityMock } = makeSut();
+    expect(baseEntityMock.equals(compareEntityMock)).toBe(true);
   });
   it("should return false if function equals receive another instance with same props and different ID", () => {
-    const { user1, user3 } = makeSut();
-    expect(user1.equals(user3)).toBe(false);
+    const { baseEntityMock, falseCompareEntityMock } = makeSut();
+    expect(baseEntityMock.equals(falseCompareEntityMock)).toBe(false);
   });
   it("should return false if function equals receive another different instance", () => {
-    const { user1, user3 } = makeSut();
-    expect(user1.equals(user3)).toBe(false);
+    const { baseEntityMock, falseCompareEntityMock } = makeSut();
+    expect(baseEntityMock.equals(falseCompareEntityMock)).toBe(false);
   });
 });

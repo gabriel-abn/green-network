@@ -1,8 +1,10 @@
 import { EntityIDFactory, UniqueEntityIDGeneratorFactory } from "@domain/index";
 import { UUIDEntity } from "@tests/infra/mocks/uuid-generator-spy";
+import { UUIDTestEntity } from "./mocks/common/uuid-generator-spy";
+import { TestClass } from "./mocks/test-mock";
 
 describe("Unique entity ID generator Factory", () => {
-  it("should get factory instance not inicialized", () => {
+  it("should not get factory instance not inicialized", () => {
     const factory = UniqueEntityIDGeneratorFactory.getInstance();
     expect(() => {
       const generator = factory.getIdGeneratorFor();
@@ -16,6 +18,15 @@ describe("Unique entity ID generator Factory", () => {
     factory.inicialize(gen);
     const generator = factory.getIdGeneratorFor();
 
-    expect(generator.nextID()).toBeTruthy();
+    expect(generator).toBeInstanceOf(UUIDEntity);
+  });
+  it("should make an entity id factory by class's name", () => {
+    const factory = UniqueEntityIDGeneratorFactory.getInstance();
+    const gen: EntityIDFactory = {
+      ["TestClass"]: new UUIDTestEntity(),
+    };
+    factory.inicialize(gen);
+    const test = TestClass.create({});
+    expect(test).toHaveProperty("_id.value", "test_id");
   });
 });
